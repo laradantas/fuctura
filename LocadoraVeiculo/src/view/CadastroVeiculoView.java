@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
@@ -29,6 +30,8 @@ public class CadastroVeiculoView extends JFrame {
 	private JTextField txtAnoVeiculo;
 	private JLabel lblAno;
 	private JButton btCadastrarVeiculo;
+	private JTextField txtIdVeiculo;
+	private JLabel lblId;
 
 	/**
 	 * Launch the application.
@@ -81,48 +84,48 @@ public class CadastroVeiculoView extends JFrame {
 		contentPane.add(lblCadastroDeVeculos);
 		
 		JLabel lblNewLabel = new JLabel("Modelo");
-		lblNewLabel.setBounds(10, 62, 72, 50);
+		lblNewLabel.setBounds(10, 89, 72, 50);
 		contentPane.add(lblNewLabel);
 		
 		txtModeloVeiculo = new JTextField();
-		txtModeloVeiculo.setBounds(109, 72, 200, 28);
+		txtModeloVeiculo.setBounds(108, 99, 200, 28);
 		contentPane.add(txtModeloVeiculo);
 		txtModeloVeiculo.setColumns(10);
 		
 		txtFabricanteVeiculo = new JTextField();
 		txtFabricanteVeiculo.setColumns(10);
-		txtFabricanteVeiculo.setBounds(109, 133, 200, 28);
+		txtFabricanteVeiculo.setBounds(109, 160, 200, 28);
 		contentPane.add(txtFabricanteVeiculo);
 		
 		lblModelo = new JLabel("Fabricante");
-		lblModelo.setBounds(10, 123, 72, 50);
+		lblModelo.setBounds(10, 150, 72, 50);
 		contentPane.add(lblModelo);
 		
 		txtPlacaVeiculo = new JTextField();
 		txtPlacaVeiculo.setColumns(10);
-		txtPlacaVeiculo.setBounds(109, 189, 200, 28);
+		txtPlacaVeiculo.setBounds(109, 216, 200, 28);
 		contentPane.add(txtPlacaVeiculo);
 		
 		lblPlaca = new JLabel("Placa");
-		lblPlaca.setBounds(10, 179, 72, 50);
+		lblPlaca.setBounds(10, 206, 72, 50);
 		contentPane.add(lblPlaca);
 		
 		txtChassiVeiculo = new JTextField();
 		txtChassiVeiculo.setColumns(10);
-		txtChassiVeiculo.setBounds(109, 246, 200, 28);
+		txtChassiVeiculo.setBounds(109, 273, 200, 28);
 		contentPane.add(txtChassiVeiculo);
 		
 		lblChassi = new JLabel("Chassi");
-		lblChassi.setBounds(10, 236, 72, 50);
+		lblChassi.setBounds(10, 263, 72, 50);
 		contentPane.add(lblChassi);
 		
 		txtAnoVeiculo = new JTextField();
 		txtAnoVeiculo.setColumns(10);
-		txtAnoVeiculo.setBounds(109, 292, 200, 28);
+		txtAnoVeiculo.setBounds(109, 319, 200, 28);
 		contentPane.add(txtAnoVeiculo);
 		
 		lblAno = new JLabel("Ano");
-		lblAno.setBounds(10, 282, 72, 50);
+		lblAno.setBounds(10, 309, 72, 50);
 		contentPane.add(lblAno);
 		
 		btCadastrarVeiculo = new JButton("Cadastrar");
@@ -130,28 +133,41 @@ public class CadastroVeiculoView extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				VeiculoModelController veiculoModelController = new VeiculoModelController();
 				
+				int id = Integer.parseInt(txtIdVeiculo.getText().toString());
 				String modelo = txtModeloVeiculo.getText().toString();
 				String fabricante = txtFabricanteVeiculo.getText().toString();
 				String placa = txtPlacaVeiculo.getText().toString(); 
 				String chassi = txtChassiVeiculo.getText().toString(); 
 				String ano = txtAnoVeiculo.getText().toString(); 
 				
-				boolean resultadoCadastro = veiculoModelController.cadastrar(modelo, fabricante, placa, chassi, ano);
+				boolean resultadoCadastro = veiculoModelController.cadastrar(id,modelo, fabricante, placa, chassi, ano);
 				
 				if(resultadoCadastro){
 					//Exibir Alert de sucesso
+					JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso");
+					/*
 					System.out.println(BancoMentira.veiculoModelRepositorio.keySet());
 					if(BancoMentira.veiculoModelRepositorio.containsKey(5)){
 						System.out.println(BancoMentira.veiculoModelRepositorio.get(5).getModelo());
 					}
+					*/
 				}
 				else{
 					//Exibir Alert de erro
-					System.out.println("DEU MERDA!!!!!!!!");
+					JOptionPane.showMessageDialog(null, "Cadastro não realizado!");
 				}
 			}
 		});
 		btCadastrarVeiculo.setBounds(109, 351, 200, 50);
 		contentPane.add(btCadastrarVeiculo);
+		
+		txtIdVeiculo = new JTextField();
+		txtIdVeiculo.setColumns(10);
+		txtIdVeiculo.setBounds(108, 60, 200, 28);
+		contentPane.add(txtIdVeiculo);
+		
+		lblId = new JLabel("Id");
+		lblId.setBounds(10, 50, 72, 50);
+		contentPane.add(lblId);
 	}
 }

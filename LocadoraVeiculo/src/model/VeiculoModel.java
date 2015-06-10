@@ -8,9 +8,10 @@ public class VeiculoModel extends Model {
 	private String chassi;
 	private String ano;
 	
-	public VeiculoModel(String modelo, String fabricante, String placa,
+	public VeiculoModel(int id, String modelo, String fabricante, String placa,
 			String chassi, String ano) {
 		super();
+		this.setId(id);
 		this.modelo = modelo;
 		this.fabricante = fabricante;
 		this.placa = placa;
