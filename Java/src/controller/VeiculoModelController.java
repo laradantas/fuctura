@@ -16,7 +16,8 @@ public class VeiculoModelController implements ModelController {
 		}else{
 			VeiculoModel veiculoModel = new VeiculoModel(id, modelo, fabricante, placa, chassi, ano);
 			if(!BancoMentira.veiculoModelRepositorio.containsKey(id)){
-				BancoMentira.salvarVeiculo(veiculoModel);
+				// Inserir no banco local
+				BancoMentira.veiculoModelRepositorio.put(veiculoModel.getId(), veiculoModel);
 				return true;
 			}else{
 				return false;
