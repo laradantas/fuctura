@@ -67,5 +67,11 @@ public class VeiculoModelController implements ModelController {
 			return veiculoModel;
 		}
 	}
+
+	public boolean cadastrar(int id, String idCliente, String idVeiculo,
+			String valor, String pontuacao) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 	
 }

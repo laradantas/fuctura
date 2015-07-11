@@ -10,8 +10,7 @@ public class VeiculoModel extends Model {
 	
 	public VeiculoModel(int id, String modelo, String fabricante, String placa,
 			String chassi, String ano) {
-		super();
-		this.setId(id);
+		super(id);
 		this.modelo = modelo;
 		this.fabricante = fabricante;
 		this.placa = placa;
