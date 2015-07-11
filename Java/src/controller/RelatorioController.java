@@ -1,4 +1,4 @@
-package report;
+package controller;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -16,9 +16,9 @@ import banco.BancoMYSQL;
 /**
  * @author bci Classe responsável por gerar os contratos a partir do iReports.
  */
-public class GeradorRelatorio {
+public class RelatorioController {
 
-	public GeradorRelatorio() {
+	public RelatorioController() {
 		super();
 		
 		try {

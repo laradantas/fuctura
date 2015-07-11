@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
 
-import report.GeradorRelatorio;
+import controller.RelatorioController;
 
 public class BancoMYSQL {
 
@@ -64,7 +64,7 @@ public class BancoMYSQL {
 			HashMap<String, Object> parametros = new HashMap<String, Object>();
 			parametros.put("valor_id", 1);
 			
-			new GeradorRelatorio().gerarRelatorio("/home/breno/Desktop/Relatorio", "/home/breno/Desktop/relatorio-fuctura.jasper", parametros);
+			new RelatorioController().gerarRelatorio("/home/breno/Desktop/Relatorio", "/home/breno/Desktop/relatorio-fuctura.jasper", parametros);
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
