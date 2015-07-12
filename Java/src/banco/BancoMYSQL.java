@@ -69,23 +69,10 @@ public class BancoMYSQL {
 	public static void main(String[] args) {
 		try {
 
-			ResultSet resultSet = realizarConsulta("select * from ireport.tabela_teste");
-
-			while (resultSet.next()) {
-				String id = resultSet.getString("id");
-				String descricao = resultSet.getString("descricao");
-				String quantidade = resultSet.getString("quantidade");
-				String preco = resultSet.getString("preco");
-				System.out.println("id: " + id);
-				System.out.println("descricao: " + descricao);
-				System.out.println("quantidade: " + quantidade);
-				System.out.println("preco: " + preco);
-			}
-			
 			HashMap<String, Object> parametros = new HashMap<String, Object>();
-			parametros.put("valor_id", 1);
+			parametros.put("parametroId", 1);
 			
-			new RelatorioController().gerarRelatorio("/home/breno/Desktop/Relatorio", "/home/breno/Desktop/relatorio-fuctura.jasper", parametros);
+			new RelatorioController().gerarRelatorio("/home/breno/Desktop/Relatorio", "/home/breno/workspace/fuctura/Java/relatorios/relatorioMultas.jasper", parametros);
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
