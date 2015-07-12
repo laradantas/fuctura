@@ -1,0 +1,5 @@
+CREATE TABLE `locadora`.`veiculos` ( `id` INT NOT NULL , `modelo` TEXT NOT NULL , `fabricante` TEXT NOT NULL , `placa` TEXT NOT NULL , `chassi` TEXT NOT NULL , `ano` TEXT NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+
+CREATE TABLE `locadora`.`clientes` ( `id` INT NOT NULL , `nome` TEXT NOT NULL , `sobrenome` TEXT NOT NULL , `idade` TEXT NOT NULL , `numeroCNH` TEXT NOT NULL , `cpf` TEXT NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+
+

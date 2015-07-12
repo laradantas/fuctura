@@ -1,23 +1,19 @@
 package view;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-import model.VeiculoModel;
-import javax.swing.JTextField;
-import javax.swing.JLabel;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import model.AluguelModel;
 
 public class LerAluguelView extends JFrame {
 
 	private JPanel contentPane;
-	private static VeiculoModel veiculo;
+	private static AluguelModel aluguel;
 	private JTextField txtIdAluguel;
 	private JTextField txtIdCliente;
 	private JTextField txtIdVeiculo;
@@ -41,8 +37,8 @@ public class LerAluguelView extends JFrame {
 		});
 	}
 	
-	public static void open(VeiculoModel veiculoModel){
-		veiculo = veiculoModel;
+	public static void open(AluguelModel aluguelModel){
+		aluguel = aluguelModel;
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -120,15 +116,12 @@ public class LerAluguelView extends JFrame {
 		txtDataDevolucao.setBounds(109, 322, 200, 28);
 		contentPane.add(txtDataDevolucao);
 		
-		txtIdAluguel.setText(String.valueOf(veiculo.getId()));
-		txtIdCliente.setText(String.valueOf(veiculo.getModelo()));
-		txtIdVeiculo.setText(String.valueOf(veiculo.getFabricante()));
-		txtValor.setText(String.valueOf(veiculo.getPlaca()));
-		txtDataInicio.setText(String.valueOf(veiculo.getChassi()));
-		txtDataDevolucao.setText(String.valueOf(veiculo.getAno()));
-		
-		
-		
+		txtIdAluguel.setText(String.valueOf(aluguel.getId()));
+		txtIdCliente.setText(String.valueOf(aluguel.getIdCliente()));
+		txtIdVeiculo.setText(String.valueOf(aluguel.getIdVeiculo()));
+		txtValor.setText(String.valueOf(aluguel.getValorAluguel()));
+		txtDataInicio.setText(String.valueOf(aluguel.getDataInicio()));
+		txtDataDevolucao.setText(String.valueOf(aluguel.getDataDevolucao()));
 		
 		JLabel lblNewLabel = new JLabel("Dados do cadastro de aluguel");
 		lblNewLabel.setBounds(122, 9, 200, 50);

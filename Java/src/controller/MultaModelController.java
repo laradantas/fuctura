@@ -1,72 +1,100 @@
 package controller;
 
-import banco.BancoMentira;
+import java.sql.ResultSet;
+
+import banco.BancoMYSQL;
 import model.MultaModel;
-import model.VeiculoModel;
 
 public class MultaModelController implements ModelController {
 
 	public boolean remover(int id){
-		if(id == 0){
+		
+		String comando = "DELETE FROM `locadora`.`multa` WHERE `id`="+id+";";
+		
+		try {
+			BancoMYSQL.executarSQL(comando);
+			return true;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 			return false;
-		}else{
-			if(BancoMentira.multaModelRepositorio.containsKey(id)){
-				BancoMentira.multaModelRepositorio.remove(id);
-				return true;
-			}else{
-				return false;
-			}
 		}
+		
 	}
-	
 
 	public MultaModel ler(int id){
-		if(id == 0){
-			return null;
-		}else{
-			MultaModel multaModel  = BancoMentira.multaModelRepositorio.get(id);
-			return multaModel;
+		
+		ResultSet retorno = null;
+		MultaModel model = null;
+		
+		String comando = "SELECT `id`, `idCliente`, `idVeiculo`, `valor`, `pontuacao` FROM `locadora`.`multa` WHERE `id`=" + id;
+		
+		try {
+			
+			retorno = BancoMYSQL.realizarConsulta(comando);
+			retorno.first();
+			
+			int idCliente = retorno.getInt(2);
+			int idVeiculo = retorno.getInt(3);
+			double valor = retorno.getDouble(4);
+			int pontuacao = retorno.getInt(5);
+			
+			model = new MultaModel(id, idCliente, idVeiculo, valor, pontuacao);
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			
 		}
+		
+		return model;
+		
 	}
 
 	public boolean cadastrar(int id, int idCliente, int idVeiculo, double valor, int pontuacao) {
-		// TODO Auto-generated method stub
-		
-		//Validar os campos
-		//TODO acrescentar os outros atributos na validação abaixo
-		if(!BancoMentira.clienteModelRepositorio.containsKey(idCliente) || !BancoMentira.veiculoModelRepositorio.containsKey(idVeiculo)){
-			return false;
-		}else{
-			MultaModel multaModel = new MultaModel(id, idCliente, idVeiculo, valor, pontuacao);
-			if(!BancoMentira.multaModelRepositorio.containsKey(id)){
-				// Inserir no banco local
-				BancoMentira.multaModelRepositorio.put(multaModel.getId(), multaModel);
-					return true;
-				}else{
-					return false;
-				}
-			}
-		}
 
-	public boolean editar(int id, int idCliente, int idVeiculo, double valor,
-			int pontuacao) {
-		// TODO Auto-generated method stub
+		String comando = "INSERT INTO `locadora`.`multa`(`id`, `idCliente`, `idVeiculo`, `valor`, `pontuacao`) VALUES ("
+				+ id + "," 
+				+ "" + idCliente + "" + ","
+				+ "" + idVeiculo + "" + ","
+				+ "" + valor + "" + ","
+				+ "" + pontuacao + "" + ""
+				+ ")";
 		
-		if(!BancoMentira.clienteModelRepositorio.containsKey(idCliente) || !BancoMentira.veiculoModelRepositorio.containsKey(idVeiculo)){
-			return false;
+		boolean resultado = false;
+		
+		try {
+			BancoMYSQL.executarSQL(comando);
+			resultado = true;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+				
+		return resultado;
+	
+	}
+
+	public boolean editar(int id, int idCliente, int idVeiculo, double valor, int pontuacao) {
+		
+		String comando = "UPDATE `locadora`.`multa` SET "
+				+ "`idCliente`=" + idCliente + ", "
+				+ "`idVeiculo`=" + idVeiculo + ", "
+				+ "`valor`=" + valor + ", "
+				+ "`pontuacao`=" + pontuacao + " "
+				+ " WHERE `id`=" + id + ";";
+		
+		boolean resultado = false;
+		
+		try {
+			BancoMYSQL.executarSQL(comando);
+			resultado = true;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
-		if(BancoMentira.multaModelRepositorio.containsKey(id)){
-			BancoMentira.multaModelRepositorio.get(id).setIdCliente(idCliente);
-			BancoMentira.multaModelRepositorio.get(id).setIdVeiculo(idVeiculo);
-			BancoMentira.multaModelRepositorio.get(id).setValor(valor);
-			BancoMentira.multaModelRepositorio.get(id).setPontuacao(pontuacao);
-			
-			return true;
-			
-		}else{
-			return false;
-		}
+		return resultado;
 		
 	}
+	
 }

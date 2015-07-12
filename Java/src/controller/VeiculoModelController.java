@@ -1,71 +1,105 @@
 package controller;
 
-import banco.BancoMentira;
+import java.sql.ResultSet;
+
 import model.VeiculoModel;
+import banco.BancoMYSQL;
 
 public class VeiculoModelController implements ModelController {
 
-	public boolean cadastrar(int id, String modelo, String fabricante, String placa, 
-			String chassi, String ano ){
+	public boolean cadastrar(int id, String modelo, String fabricante, String placa, String chassi, String ano ){
 		
+		String comando = "INSERT INTO `locadora`.`veiculo`(`id`, `modelo`, `fabricante`, `placa`, `chassi`, `ano`) VALUES ("
+				+ id + "," 
+				+ "'" + modelo + "'" + ","
+				+ "'" + fabricante + "'" + ","
+				+ "'" + placa + "'" + ","
+				+ "'" + chassi + "'" + ","
+				+ "'" + ano + "'" + ""
+				+ ")";
 		
-		//Validar os campos
-		//TODO acrescentar os outros atributos na validação abaixo
-		if((id != 0) && (modelo == null) && (fabricante == null)){
-			return false;
-		}else{
-			VeiculoModel veiculoModel = new VeiculoModel(id, modelo, fabricante, placa, chassi, ano);
-			if(!BancoMentira.veiculoModelRepositorio.containsKey(id)){
-				// Inserir no banco local
-				BancoMentira.veiculoModelRepositorio.put(veiculoModel.getId(), veiculoModel);
-				return true;
-			}else{
-				return false;
-			}
+		boolean resultado = false;
+		
+		try {
+			BancoMYSQL.executarSQL(comando);
+			resultado = true;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+				
+		return resultado;
+
 	}
 	
 	public boolean remover(int id){
-		if(id == 0){
+		
+		String comando = "DELETE FROM `locadora`.`veiculo` WHERE `id`="+id+";";
+		
+		try {
+			BancoMYSQL.executarSQL(comando);
+			return true;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 			return false;
-		}else{
-			if(BancoMentira.veiculoModelRepositorio.containsKey(id)){
-				BancoMentira.veiculoModelRepositorio.remove(id);
-				return true;
-			}else{
-				return false;
-			}
 		}
+		
 	}
 	
 
-	public boolean editar(int id, String modelo, String fabricante, String placa, 
-			String chassi, String ano ){
+	public boolean editar(int id, String modelo, String fabricante, String placa, String chassi, String ano){
 		
-		if(BancoMentira.veiculoModelRepositorio.containsKey(id)){
-			BancoMentira.veiculoModelRepositorio.get(id).setModelo(modelo);
-			BancoMentira.veiculoModelRepositorio.get(id).setFabricante(fabricante);
-			BancoMentira.veiculoModelRepositorio.get(id).setPlaca(placa);
-			BancoMentira.veiculoModelRepositorio.get(id).setChassi(chassi);
-			BancoMentira.veiculoModelRepositorio.get(id).setAno(ano);
+			String comando = "UPDATE `locadora`.`veiculo` SET "
+					+ "`modelo`='" + modelo + "', "
+					+ "`fabricante`='" + fabricante + "', "
+					+ "`placa`='" + placa + "', "
+					+ "`chassi`='" + chassi + "', "
+					+ "`ano`='" + ano + "' "
+					+ " WHERE `id`=" + id + ";";
 			
-			return true;
+			boolean resultado = false;
 			
-		}else{
-			return false;
-		}
-		
+			try {
+				BancoMYSQL.executarSQL(comando);
+				resultado = true;
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			return resultado;
 			
 	}
 	
 	
 	public VeiculoModel ler(int id){
-		if(id == 0){
-			return null;
-		}else{
-			VeiculoModel veiculoModel  = BancoMentira.veiculoModelRepositorio.get(id);
-			return veiculoModel;
+		
+		ResultSet retorno = null;
+		VeiculoModel model = null;
+		
+		String comando = "SELECT `id`, `modelo`, `fabricante`, `placa`, `chassi`, `ano` FROM `locadora`.`veiculo` WHERE `id`=" + id;
+		
+		try {
+			
+			retorno = BancoMYSQL.realizarConsulta(comando);
+			retorno.first();
+			
+			String modelo = retorno.getString(2);
+			String fabricante = retorno.getString(3);
+			String placa = retorno.getString(4);
+			String chassi = retorno.getString(5);
+			String ano = retorno.getString(6);
+			
+			model = new VeiculoModel(id, modelo, fabricante, placa, chassi, ano);
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			
 		}
+		
+		return model;
+		
 	}
 
 	public boolean cadastrar(int id, String idCliente, String idVeiculo,

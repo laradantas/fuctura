@@ -45,6 +45,27 @@ public class BancoMYSQL {
 		
 	}
 	
+	public static boolean executarSQL(String consulta) throws Exception {
+		
+		Connection connect = null;
+		Statement statement = null;
+		boolean resultadoOK = false;
+		
+		iniciarConexaoBanco();
+		connect = getConnection();
+		
+		// Cria um statement que sera utilizado na consulta
+		statement = connect.createStatement();
+		
+		// Realiza a consulta
+		resultadoOK = statement.execute(consulta);
+		
+		statement.execute("COMMIT;");
+		
+		return resultadoOK;
+		
+	}
+	
 	public static void main(String[] args) {
 		try {
 

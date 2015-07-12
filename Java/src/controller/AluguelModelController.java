@@ -1,75 +1,103 @@
 package controller;
 
+import java.sql.ResultSet;
+
 import model.AluguelModel;
-import model.VeiculoModel;
-import banco.BancoMentira;
+import banco.BancoMYSQL;
 
 public class AluguelModelController implements ModelController {
 
 	public boolean remover(int id){
-		if(id == 0){
+		
+		String comando = "DELETE FROM `locadora`.`aluguel` WHERE `id`="+id+";";
+		
+		try {
+			BancoMYSQL.executarSQL(comando);
+			return true;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 			return false;
-		}else{
-			if(BancoMentira.aluguelModelRepositorio.containsKey(id)){
-				BancoMentira.aluguelModelRepositorio.remove(id);
-				return true;
-			}else{
-				return false;
-			}
 		}
+		
 	}
 	
 	public AluguelModel ler(int id){
-		if(id == 0){
-			return null;
-		}else{
-			AluguelModel aluguelModel  = BancoMentira.aluguelModelRepositorio.get(id);
-			return aluguelModel;
+		
+		ResultSet retorno = null;
+		AluguelModel model = null;
+		
+		String comando = "SELECT `id`, `idCliente`, `idVeiculo`, `valorAluguel`, `dataInicio`, `dataDevolucao` FROM `locadora`.`aluguel` WHERE `id`=" + id;
+		
+		try {
+			
+			retorno = BancoMYSQL.realizarConsulta(comando);
+			retorno.first();
+			
+			int idCliente = retorno.getInt(2);
+			int idVeiculo = retorno.getInt(3);
+			double valorAluguel = retorno.getDouble(4);
+			String dataInicio = retorno.getString(5);
+			String dataDevolucao = retorno.getString(6);
+			
+			model = new AluguelModel(id, idCliente, idVeiculo, valorAluguel, dataInicio, dataDevolucao);
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			
 		}
+		
+		return model;
+		
 	}
 
-	public boolean cadastrar(int id, int idCliente, int idVeiculo,
-			double valorAluguel, String dataInicio, String dataDevolucao) {
-		// TODO Auto-generated method stub
+	public boolean cadastrar(int id, int idCliente, int idVeiculo, double valorAluguel, String dataInicio, String dataDevolucao) {
+
+		String comando = "INSERT INTO `locadora`.`aluguel`(`id`, `idCliente`, `idVeiculo`, `valorAluguel`, `dataInicio`, `dataDevolucao`) VALUES ("
+				+ id + "," 
+				+ "" + idCliente + "" + ","
+				+ "" + idVeiculo + "" + ","
+				+ "" + valorAluguel + "" + ","
+				+ "'" + dataInicio + "'" + ","
+				+ "'" + dataDevolucao + "'" + ""
+				+ ")";
 		
-		//Validar os campos
-				//TODO acrescentar os outros atributos na validação abaixo
-				if(!BancoMentira.clienteModelRepositorio.containsKey(idCliente) || !BancoMentira.veiculoModelRepositorio.containsKey(idVeiculo)){
-					return false;
-				}else{
-					AluguelModel aluguelModel = new AluguelModel(id, idCliente, idVeiculo, valorAluguel, dataInicio, dataDevolucao);
-					if(!BancoMentira.aluguelModelRepositorio.containsKey(id)){
-						// Inserir no banco local
-						BancoMentira.aluguelModelRepositorio.put(aluguelModel.getId(), aluguelModel);
-						return true;
-					}else{
-						return false;
-					}
-				}
+		boolean resultado = false;
+		
+		try {
+			BancoMYSQL.executarSQL(comando);
+			resultado = true;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+				
+		return resultado;
 		
 	}
 
 
-	public boolean editar(int id, int idCliente, int idVeiculo,
-			double valorAluguel, String dataInicio, String dataDevolucao) {
-		// TODO Auto-generated method stub
+	public boolean editar(int id, int idCliente, int idVeiculo,	double valorAluguel, String dataInicio, String dataDevolucao) {
 		
-		if(!BancoMentira.clienteModelRepositorio.containsKey(idCliente) || !BancoMentira.veiculoModelRepositorio.containsKey(idVeiculo)){
-			return false;
+		String comando = "UPDATE `locadora`.`aluguel` SET "
+				+ "`idCliente`=" + idCliente + ", "
+				+ "`idVeiculo`=" + idVeiculo + ", "
+				+ "`valorAluguel`=" + valorAluguel + ", "
+				+ "`dataInicio`='" + dataInicio + "', "
+				+ "`dataDevolucao`='" + dataDevolucao + "' "
+				+ " WHERE `id`=" + id + ";";
+		
+		boolean resultado = false;
+		
+		try {
+			BancoMYSQL.executarSQL(comando);
+			resultado = true;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
-		if(BancoMentira.aluguelModelRepositorio.containsKey(id)){
-			BancoMentira.aluguelModelRepositorio.get(id).setIdCliente(idCliente);;
-			BancoMentira.aluguelModelRepositorio.get(id).setIdVeiculo(idVeiculo);
-			BancoMentira.aluguelModelRepositorio.get(id).setValorAluguel(valorAluguel);
-			BancoMentira.aluguelModelRepositorio.get(id).setDataInicio(dataInicio);
-			BancoMentira.aluguelModelRepositorio.get(id).setDataDevolucao(dataDevolucao);
-			
-			return true;
-			
-		}else{
-			return false;
-		}
+		return resultado;
 		
 	}
 	

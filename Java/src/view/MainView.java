@@ -251,6 +251,19 @@ public class MainView {
 		frame.getContentPane().add(btRemoverAluguel);
 		
 		JButton btConsultarAluguel = new JButton("Consultar");
+		btConsultarAluguel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String idString = JOptionPane.showInputDialog("Digite o id do aluguel");
+				int idAluguel = Integer.parseInt(idString);
+				AluguelModelController aluguelModelController = new AluguelModelController();
+				AluguelModel aluguel = aluguelModelController.ler(idAluguel);
+				if(aluguel == null){
+					JOptionPane.showMessageDialog(null, "O elemento não está cadastrado");
+				}else{
+					LerAluguelView.open(aluguel);
+				}
+			}
+		});
 		btConsultarAluguel.setBounds(232, 498, 200, 50);
 		frame.getContentPane().add(btConsultarAluguel);
 		
