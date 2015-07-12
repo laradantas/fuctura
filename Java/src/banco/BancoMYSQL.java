@@ -13,6 +13,9 @@ public class BancoMYSQL {
 
 	private static Connection connection;
 	
+	private static String USUARIO_BANCO = "root";
+	private static String SENHA_BANCO = "";
+	
 	public static void iniciarConexaoBanco() throws Exception {
 		if(connection == null){
 			// Carrega o Driver do banco
@@ -23,7 +26,7 @@ public class BancoMYSQL {
 	
 	public static Connection getConnection() throws SQLException{
 	    // Pega a conexao do banco
-	    return DriverManager.getConnection("jdbc:mysql://localhost/phpmyadmin?" + "user=root&password=");
+	    return DriverManager.getConnection("jdbc:mysql://localhost/phpmyadmin?" + "user=" + USUARIO_BANCO + "&password=" + SENHA_BANCO);
 	}
 
 	public static ResultSet realizarConsulta(String consulta) throws Exception {
@@ -64,20 +67,6 @@ public class BancoMYSQL {
 		
 		return resultadoOK;
 		
-	}
-	
-	public static void main(String[] args) {
-		try {
-
-			HashMap<String, Object> parametros = new HashMap<String, Object>();
-			parametros.put("parametroId", 1);
-			
-			new RelatorioController().gerarRelatorio("/home/breno/Desktop/Relatorio", "/home/breno/workspace/fuctura/Java/relatorios/relatorioMultas.jasper", parametros);
-
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 	
 }

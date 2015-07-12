@@ -1,12 +1,13 @@
 package controller;
 
 import java.sql.ResultSet;
+import java.util.HashMap;
 
 import model.VeiculoModel;
 import banco.BancoMYSQL;
 
 public class VeiculoModelController implements ModelController {
-
+	
 	public boolean cadastrar(int id, String modelo, String fabricante, String placa, String chassi, String ano ){
 		
 		String comando = "INSERT INTO `locadora`.`veiculo`(`id`, `modelo`, `fabricante`, `placa`, `chassi`, `ano`) VALUES ("
@@ -102,10 +103,4 @@ public class VeiculoModelController implements ModelController {
 		
 	}
 
-	public boolean cadastrar(int id, String idCliente, String idVeiculo,
-			String valor, String pontuacao) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	
 }

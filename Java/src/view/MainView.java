@@ -16,6 +16,7 @@ import model.VeiculoModel;
 import controller.AluguelModelController;
 import controller.ClienteModelController;
 import controller.MultaModelController;
+import controller.RelatorioController;
 import controller.VeiculoModelController;
 
 public class MainView {
@@ -283,5 +284,18 @@ public class MainView {
 		});
 		btAlterarAluguel.setBounds(232, 449, 200, 50);
 		frame.getContentPane().add(btAlterarAluguel);
+		
+		JButton btnGerarTodosOs = new JButton("Gerar Todos os Relatorios");
+		btnGerarTodosOs.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				RelatorioController relatorioController = new RelatorioController();
+				relatorioController.gerarRelatorioAluguel("/aluguel.pdf", "1");
+				relatorioController.gerarRelatorioTodosAlugueis("/alugueis.pdf");
+				relatorioController.gerarRelatorioTodosVeiculos("/veiculos.pdf");
+				relatorioController.gerarRelatorioVeiculo("/veiculo.pdf", 1);
+			}
+		});
+		btnGerarTodosOs.setBounds(82, 3, 334, 25);
+		frame.getContentPane().add(btnGerarTodosOs);
 	}
 }

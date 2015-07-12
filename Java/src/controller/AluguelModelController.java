@@ -1,6 +1,7 @@
 package controller;
 
 import java.sql.ResultSet;
+import java.util.HashMap;
 
 import model.AluguelModel;
 import banco.BancoMYSQL;
